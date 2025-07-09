@@ -48,12 +48,6 @@ try:
 except Exception as e:
     print("Too close, Cross check the code again",e)
 
-
-
-
-
-
-
 if __name__=='__main__':
     if len(sys.argv)<2:
         sys.exit(1)
@@ -62,7 +56,7 @@ if __name__=='__main__':
     if functions=="filter_resume":
         df=filter_resume()
         print("Extracted Resume Data:\n")
-        print(df)
+        print(df["Skills"])
     elif functions=="create_database":
         create_database("Unstructured_Data_Handling")
     else:

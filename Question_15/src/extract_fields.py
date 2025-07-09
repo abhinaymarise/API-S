@@ -1,16 +1,19 @@
 import re
 
+# =========== Email ==================== 
 
 def extract_email(text):
     match=re.search(r'[\w\.-]+@[\w\.-]+',text)
     return match.group(0) if match else None
 
+# =========== Phone Number ====================
 
 def extract_phone(text):
-    pattern = re.compile(r'(\+91[-\s]?)?\d{10}| \(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',re.VERBOSE)
+    pattern = re.compile(r'(\+91[-\s]?)?\d{10} | \(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}',re.VERBOSE)
     match=pattern.search(text)
     return match.group(0) if match else None
 
+# ================== Name ===========================
 
 def extract_name(text,email):
     lines=text.strip().split("\n")
@@ -26,20 +29,23 @@ def extract_name(text,email):
         return guess.title()
     return "Unknown"
 
+# ================== Skills =======================
 
 def extract_skills(text):
     known_skills=['java','python','html','css','javascript','reactjs','ml',
                   'excel','sql','mongodb','mysql','nodejs','pandas','numpy',
-                  'ai','aws','restfulapi','azure','git','github','c++','c'
+                  'ai','aws','restfulapi','azure','git','github','c++','usability testing','data analytics'
     ]
 
     text_lower=text.lower()
     found=[]
     for skill in known_skills:
-        if skill in text_lower:
+        pattern=r'\b'+re.escape(skill).replace(r'\ ',r'\s+')+r'\b'
+        if re.search(pattern,text_lower):
             found.append(skill)
-
-    return list(set(found))  # --------- To Avoid Duplicates ---------------
+    skills=sorted(found)
+    skills_str=", ".join(skills)
+    return skills_str
 
 # ============= Extraction of Education Summary =================
 
